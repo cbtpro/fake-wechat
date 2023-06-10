@@ -66,3 +66,62 @@ npm run test:e2e
 ```sh
 npm run lint
 ```
+
+### 打包时排除依赖，使用cdn替代
+
+参考文档
+
+- https://cn.vuejs.org/guide/quick-start.html#using-vue-from-cdn
+- https://cn.vitejs.dev/config/build-options.html#build-rollupoptions
+- https://cn.rollupjs.org/configuration-options/
+
+我这里选择[cdnjs](https://cdnjs.com/libraries/)来搜索对应的依赖和版本，选择包含esm、browser、prod、min关键字的链接，配置到vite.config.ts中，别人的cdn可能不靠谱，如果公司有自己的cdn，则可以将链接下载到本地，然后上传到公司的cdn上，将地址替换成公司的cdn即可。
+
+```sh
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  base: './',
+  plugins: [vue(), vueJsx()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  build: {
+    minify: 'terser',
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          'vue': 'vue',
+          // 'vue-router': 'vue-router',
+        },
+        paths: {
+          // 'vue': 'https://cdn.jsdelivr.net/npm/vue@3.3.4/+esm',
+          'vue': 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js',
+          // 'vue-router': 'https://cdn.jsdelivr.net/npm/vue-router@4.2.2/+esm',
+        }
+      },
+    },
+    terserOptions: {
+      //打包后移除console和注释
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
+  }
+})
+
+```
+
+#### 效果
+
+通过这样的操作，光vue这一个运行时依赖，打包后就减少了50.49kB，响应的如果后续有element-ui、axios等依赖，都可以通过这样的方式减少打包大小。
+如果公司有多个vue项目，使用了这个相同链接，就能达到加速的目的，非常的棒。
