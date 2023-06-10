@@ -4,6 +4,13 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { compression as gzipCompression } from 'vite-plugin-compression2'
+import progress from 'vite-plugin-progress'
+import colors from 'picocolors'
+
+/**
+ * @see https://github.com/jeddygong/vite-plugin-progress/blob/main/src/index.ts
+ */
+const format = `${colors.green(colors.bold('Building'))} ${colors.cyan('[:bar]')} :percent`;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,6 +19,10 @@ export default defineConfig({
     vue(),
     vueJsx(),
     gzipCompression(),
+    progress({
+      format,
+      total: 200
+    })
   ],
   resolve: {
     alias: {
@@ -39,9 +50,9 @@ export default defineConfig({
         require('cssnano')({
           'cssnano-preset-advaced': {
             zIndex: false,
-            autoprefixer: true,
-          },
-        }),
+            autoprefixer: true
+          }
+        })
       ]
     }
   },
