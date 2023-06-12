@@ -1,40 +1,94 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-const list = ref<number[]>([])
+import { requestByPaging } from '@/network'
+
+const searchKeyword = ref<string>('')
+const list = ref<IMockUser[]>([])
 const loading = ref(false)
 const finished = ref(false)
+const refreshing = ref(false)
 
-const onLoad = () => {
-  // 异步更新数据
-  // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-  setTimeout(() => {
-    for (let i = 0; i < 10; i++) {
-      list.value.push(list.value.length + 1)
-    }
+const page = ref(0)
+const pageSize = ref(30)
 
-    // 加载状态结束
-    loading.value = false
+const getDemoList = (options: { page: number; pageSize: number }) => {
+  const { page = 0, pageSize = 10 } = options
+  return new Promise<IResponseBodyByPaging<IMockUser>>((resolve, reject) => {
+    requestByPaging<IMockUser>({
+      url: '/gateway/mock/list',
+      method: 'GET',
+      params: {
+        page,
+        pageSize
+      }
+    })
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
 
-    // 数据全部加载完成
-    if (list.value.length >= 40) {
-      finished.value = true
-    }
-  }, 1000)
+const onLoad = async () => {
+  if (refreshing.value) {
+    list.value = []
+    refreshing.value = false
+  }
+  const { data, meta } = await getDemoList({
+    page: page.value++,
+    pageSize: pageSize.value
+  })
+  const {
+    /** 本页记录数 */
+    itemCount,
+    /** 总记录数 */
+    totalItems,
+    /** 每页请求几页 */
+    itemsPerPage,
+    /** 总页数 */
+    totalPages,
+    /** 当前第几页 */
+    currentPage = 0
+  } = meta || {}
+
+  // page.value = currentPage
+
+  list.value = list.value.concat(data)
+
+  loading.value = false
+
+  if (currentPage === totalPages) {
+    finished.value = true
+  }
+}
+const onRefresh = () => {
+  // 清空列表数据
+  page.value = 0
+  finished.value = false
+
+  // 重新加载数据
+  // 将 loading 设置为 true，表示处于加载状态
+  loading.value = true
+  onLoad()
 }
 </script>
 
 <template>
   <IndexTitleBar />
   <body-container>
-    <van-list
-      v-model:loading="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <van-cell v-for="item in list" :key="item" :title="item" />
-    </van-list>
-    <TheWelcome />
+    <van-search v-model="searchKeyword" placeholder="请输入搜索关键词" />
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-list
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text="已经到我的底线啦😊"
+        @load="onLoad"
+      >
+        <van-cell v-for="(item, index) in list" :key="index" :title="item.name" />
+      </van-list>
+    </van-pull-refresh>
   </body-container>
   <body-footer />
 </template>

@@ -21,6 +21,20 @@ export default defineConfig({
   base: './',
   server: {
     host: true,
+    proxy: {
+      '/gateway': {
+        target: 'http://127.0.0.1:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/gateway/, ''),
+        configure: (proxy, options) => {
+          // proxy 是 'http-proxy' 的实例
+        }
+      },
+      '/socket.io': {
+        target: 'ws://localhost:5174',
+        ws: true
+      }
+    }
   },
   plugins: [
     vue(),
@@ -72,13 +86,15 @@ export default defineConfig({
       external: ['vue'],
       output: {
         globals: {
-          vue: 'vue'
+          vue: 'vue',
           // 'vue-router': 'vue-router',
+          axios: 'axios',
         },
         paths: {
           // 'vue': 'https://cdn.jsdelivr.net/npm/vue@3.3.4/+esm',
-          vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js'
+          vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js',
           // 'vue-router': 'https://cdn.jsdelivr.net/npm/vue-router@4.2.2/+esm',
+          axios: 'https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/esm/axios.min.js',
         }
       }
     },
