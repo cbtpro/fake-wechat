@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.fastgit.org/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.2",
+  "description": "https://cspell.org/docs/getting-started/#1-create-a-configuration-file",
   "dictionaryDefinitions": [
     {
       "name": "project-words",
