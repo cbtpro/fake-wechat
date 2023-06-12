@@ -4,17 +4,24 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { compression as gzipCompression } from 'vite-plugin-compression2'
-import progress from 'vite-plugin-progress'
-import colors from 'picocolors'
+// import progress from 'vite-plugin-progress'
+// import colors from 'picocolors'
+import Components from 'unplugin-vue-components/vite'
+import { VantResolver } from 'unplugin-vue-components/resolvers'
+const autoprefixer = require('autoprefixer')
+const pxtoviewport = require('postcss-px-to-viewport')
 
 /**
  * @see https://github.com/jeddygong/vite-plugin-progress/blob/main/src/index.ts
  */
-const format = `${colors.green(colors.bold('Building'))} ${colors.cyan('[:bar]')} :percent`;
+// const format = `${colors.green(colors.bold('Building'))} ${colors.cyan('[:bar]')} :percent`;
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
+  server: {
+    host: true,
+  },
   plugins: [
     vue(),
     vueJsx(),
@@ -22,10 +29,19 @@ export default defineConfig({
       exclude: [/\.(DS_Store)$/],
       deleteOriginalAssets: false,
     }),
-    progress({
-      format,
-      total: 200
-    })
+    // progress({
+    //   format,
+    //   total: 200
+    // }),
+    Components({
+      dts: true, // enabled by default if `typescript` is installed
+      types: [{
+        from: 'vue-router',
+        names: ['RouterLink', 'RouterView'],
+      }],
+      resolvers: [ VantResolver() ],
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
   ],
   resolve: {
     alias: {
@@ -35,11 +51,8 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        require('postcss-import'),
-        require('postcss-url'),
-        require('postcss-aspect-ratio-mini'),
-        require('postcss-write-svg')({ utf8: false }),
-        require('postcss-px-to-viewport')({
+        autoprefixer(),
+        pxtoviewport({
           viewportWidth: 750, // 视口宽度，对应设计稿宽度
           unitPrecision: 3, // 指定px转换之后的小数位数
           viewportUnit: 'vw', // 转换的单位
@@ -50,12 +63,6 @@ export default defineConfig({
           minPixelValue: 1, // 小于或等于1px不转换
           mediaQuery: true // 允许在媒体查询中转换
         }),
-        require('cssnano')({
-          'cssnano-preset-advaced': {
-            zIndex: false,
-            autoprefixer: true
-          }
-        })
       ]
     }
   },
