@@ -18,7 +18,10 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    gzipCompression(),
+    gzipCompression({
+      exclude: [/\.(DS_Store)$/],
+      deleteOriginalAssets: false,
+    }),
     progress({
       format,
       total: 200
