@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import type { ConfigProviderThemeVars } from 'vant'
 import useHtmlHeadMeta from '@/utils/html-head-meta'
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
 const themeVars = reactive<ConfigProviderThemeVars>({
   // rateIconFullColor: '#07c160',
@@ -20,27 +20,29 @@ const themeVars = reactive<ConfigProviderThemeVars>({
 const htmlHeadMeta = useHtmlHeadMeta()
 
 onMounted(() => {
-
-htmlHeadMeta.setMeta([
-  {
+  htmlHeadMeta.setMeta([
+    {
       name: 'theme-color',
       media: '(prefers-color-scheme: light)',
-      content: '#EDEDEC',
+      content: '#EDEDEC'
     },
     {
       name: 'theme-color',
       media: '(prefers-color-scheme: dark)',
       content: '#ecece1'
-    },
+    }
   ])
-
 })
 </script>
 
 <template>
   <van-config-provider :theme-vars="themeVars">
     <div class="container">
-      <RouterView />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </div>
   </van-config-provider>
 </template>
@@ -49,6 +51,6 @@ htmlHeadMeta.setMeta([
 .container {
   width: 750px;
   height: 100vh;
-  background-color: #ECECED;
+  background-color: #ececed;
 }
 </style>
