@@ -14,38 +14,18 @@
  limitations under the License.
 -->
 
+<script setup lang="ts">
+</script>
+
 <template>
   <div class="container">
-    <div class="left">
-      <icon-font iconName="icon-left" className="icon-left arrow-left"></icon-font>
-    </div>
-    <div class="title">标题</div>
-    <div class="right"></div>
+    <slot></slot>
   </div>
 </template>
 
-<script lang="ts" setup>
-
-</script>
-
-<style lang="postcss" scoped>
+<style lang="less" scoped>
 .container {
-  width: 375px;
-  height: 44px;
-  font-family: "阿里巴巴普惠体 2.0 35 Thin";
-  .left {
-    .arrow-left {
-      width: 64px;
-      height: 64px;
-    }
-  }
-  .center {
-    font-size: 17px;
-    font-weight: 400;
-    color: rgba(0,0,0,0.9);
-    line-height: 24px;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  padding-top: 60px;
+  padding-bottom: 120px;
 }
 </style>
