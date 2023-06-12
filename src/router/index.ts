@@ -1,5 +1,9 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import {
+  createRouter,
+  createWebHashHistory,
+} from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
+import { sendToAnalyticsFn, updateHtmlTitleFn } from './navigation-guards'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -38,7 +42,7 @@ const router = createRouter({
       path: '/my',
       name: 'my',
       meta: {
-        title: '',
+        title: '我',
       },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -47,5 +51,11 @@ const router = createRouter({
     }
   ]
 })
+
+// 注册发送分析日志到后台的导航守卫
+router.afterEach(sendToAnalyticsFn)
+
+// 注册更新title的导航守卫
+router.afterEach(updateHtmlTitleFn)
 
 export default router

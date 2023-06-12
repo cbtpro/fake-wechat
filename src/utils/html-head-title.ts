@@ -12,6 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export const useHtmlHead = () => {}
+export interface HtmlHeadTitle {
+  title: string;
+}
+export const useHtmlHeadTitle = () => {
+  const setTitle = (option: HtmlHeadTitle) => {
+    const { title } = option
+    document.title = title
+  }
 
-export default useHtmlHead
+  return {
+    setTitle
+  }
+}
+
+export default useHtmlHeadTitle
