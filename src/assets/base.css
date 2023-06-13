@@ -46,7 +46,9 @@
     --color-border-hover: var(--vt-c-divider-dark-1);
 
     --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
+    /* --color-text: var(--vt-c-text-dark-2); */
+    /* TODO 暂时将dark模式的字体设置成黑色 */
+    --color-text: var(--vt-c-text-light-2);
   }
 }
 

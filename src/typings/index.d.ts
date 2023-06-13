@@ -59,3 +59,9 @@ interface IMockUser {
   url: string;
   date: string;
 }
+
+interface ISignUpUser {
+  username: string;
+  nickname: string;
+  password: string;
+}

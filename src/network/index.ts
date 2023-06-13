@@ -14,49 +14,62 @@
 
 import axios, { type AxiosRequestConfig } from 'axios'
 import config from './config.default'
-import {
-  requestErrorHandle,
-  responseErrorHandler,
-  responseInterceptor,
-  setCookieInterceptor
-} from './interceptors'
+import { useInterceptors } from './interceptors'
 
-// 使用默认配置创建请求实例
-const axiosInstance = axios.create(config)
+export const useNetwork = () => {
+  // 使用默认配置创建请求实例
+  const axiosInstance = axios.create(config)
 
-// 添加请求拦截器
-axiosInstance.interceptors.request.use(setCookieInterceptor, requestErrorHandle)
-// 添加响应拦截器
-axiosInstance.interceptors.response.use(responseInterceptor, responseErrorHandler)
+  const {
+    requestErrorHandle,
+    responseErrorHandler,
+    responseInterceptor,
+    setAuthInfoInterceptor,
+    setCookieInterceptor
+  } = useInterceptors()
+  // 请求时添加authInfo
+  axiosInstance.interceptors.request.use(setAuthInfoInterceptor)
 
-export default function request<T>(config: AxiosRequestConfig) {
-  return new Promise<IResponseBody<T>>((resolve, reject) => {
-    // 加载loading
-    axiosInstance<Promise<IResponseBody<T>>>(config)
-      .then((response) => {
-        resolve(response.data)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-      .finally(() => {
-        // 隐藏loading
-      })
-  })
-}
+  // 添加请求拦截器
+  axiosInstance.interceptors.request.use(setCookieInterceptor, requestErrorHandle)
 
-export function requestByPaging<T>(config: AxiosRequestConfig) {
-  return new Promise<IResponseBodyByPaging<T>>((resolve, reject) => {
-    // 加载loading
-    axiosInstance<Promise<IResponseBodyByPaging<T>>>(config)
-      .then((response) => {
-        resolve(response.data)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-      .finally(() => {
-        // 隐藏loading
-      })
-  })
+  // 添加响应拦截器
+  axiosInstance.interceptors.response.use(responseInterceptor, responseErrorHandler)
+
+  const request = <T>(config: AxiosRequestConfig) => {
+    return new Promise<IResponseBody<T>>((resolve, reject) => {
+      // 加载loading
+      axiosInstance<Promise<IResponseBody<T>>>(config)
+        .then((response) => {
+          resolve(response.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+        .finally(() => {
+          // 隐藏loading
+        })
+    })
+  }
+
+  const requestByPaging = <T>(config: AxiosRequestConfig) => {
+    return new Promise<IResponseBodyByPaging<T>>((resolve, reject) => {
+      // 加载loading
+      axiosInstance<Promise<IResponseBodyByPaging<T>>>(config)
+        .then((response) => {
+          resolve(response.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+        .finally(() => {
+          // 隐藏loading
+        })
+    })
+  }
+
+  return {
+    request,
+    requestByPaging
+  }
 }

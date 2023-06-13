@@ -2,14 +2,17 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { ConfigProvider } from 'vant'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import '@/assets/webfont/font.css'
 
+// 引入vant toast样式，否则命令调用方式无法显示
+import 'vant/es/notify/style'
+
 import App from './App.vue'
 import router from './router'
 
-import { ConfigProvider } from 'vant'
 
 const app = createApp(App)
 

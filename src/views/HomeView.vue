@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { requestByPaging } from '@/network'
+import { useNetwork } from '@/network'
+
+const { requestByPaging } = useNetwork()
 
 const searchKeyword = ref<string>('')
 const list = ref<IMockUser[]>([])
 const loading = ref(false)
+const listError = ref(false)
 const finished = ref(false)
 const refreshing = ref(false)
 
@@ -36,31 +39,36 @@ const onLoad = async () => {
     list.value = []
     refreshing.value = false
   }
-  const { data, meta } = await getDemoList({
-    page: page.value++,
-    pageSize: pageSize.value
-  })
-  const {
-    /** 本页记录数 */
-    itemCount,
-    /** 总记录数 */
-    totalItems,
-    /** 每页请求几页 */
-    itemsPerPage,
-    /** 总页数 */
-    totalPages,
-    /** 当前第几页 */
-    currentPage = 0
-  } = meta || {}
+  try {
+    const { data, meta } = await getDemoList({
+      page: page.value++,
+      pageSize: pageSize.value
+    })
+    const {
+      /** 本页记录数 */
+      itemCount,
+      /** 总记录数 */
+      totalItems,
+      /** 每页请求几页 */
+      itemsPerPage,
+      /** 总页数 */
+      totalPages,
+      /** 当前第几页 */
+      currentPage = 0
+    } = meta || {}
 
-  // page.value = currentPage
+    // page.value = currentPage
 
-  list.value = list.value.concat(data)
+    list.value = list.value.concat(data)
 
-  loading.value = false
-
-  if (currentPage === totalPages) {
-    finished.value = true
+    if (currentPage === totalPages) {
+      finished.value = true
+    }
+  } catch (error) {
+    console.error(error)
+    listError.value = true
+  } finally {
+    loading.value = false
   }
 }
 const onRefresh = () => {
@@ -82,6 +90,8 @@ const onRefresh = () => {
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
         v-model:loading="loading"
+        v-model:error="listError"
+        error-text="请求失败，点击重新加载"
         :finished="finished"
         finished-text="已经到我的底线啦😊"
         @load="onLoad"

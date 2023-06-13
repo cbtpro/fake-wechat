@@ -14,7 +14,26 @@
 
 import type { RouteLocationNormalized } from 'vue-router'
 import { useHtmlHeadTitle } from '@/utils/html-head-title'
+import { useAuthStore } from '@/stores/auth'
 
+export const validateAuthFn = (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+  const { meta } = to
+  const { skipAuth } = meta
+  if (skipAuth) {
+    return true
+  }
+  // TODO 判断是否登陆
+  const authStore = useAuthStore()
+  const { authInfo } = authStore
+  if (authInfo.access_token) {
+    return true
+  }
+  return {
+    path: '/sign-in',
+    // 保存我们所在的位置，以便以后再来
+    query: { redirect: to.fullPath },
+  }
+}
 export const sendToAnalyticsFn = (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
   // TODO 发送分析日志到后台的方法，建议实现时采用批量方式来提交
   console.log(to, from)

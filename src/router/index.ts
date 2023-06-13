@@ -3,7 +3,7 @@ import {
   createWebHashHistory,
 } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import { sendToAnalyticsFn, updateHtmlTitleFn } from './navigation-guards'
+import { sendToAnalyticsFn, updateHtmlTitleFn, validateAuthFn } from './navigation-guards'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -13,6 +13,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         title: '微信',
+        skipAuth: false,
       },
       component: HomeView
     },
@@ -21,6 +22,7 @@ const router = createRouter({
       name: 'friend-list',
       meta: {
         title: '通讯录',
+        skipAuth: false,
       },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -32,6 +34,7 @@ const router = createRouter({
       name: 'discover',
       meta: {
         title: '发现',
+        skipAuth: false,
       },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -43,14 +46,43 @@ const router = createRouter({
       name: 'my',
       meta: {
         title: '我',
+        skipAuth: false,
       },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/MyView.vue')
+    },
+    {
+      path: '/sign-up',
+      name: 'sign-up',
+      meta: {
+        title: '注册',
+        skipAuth: true,
+      },
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../components/auth/sign-up.vue')
+    },
+
+    {
+      path: '/sign-in',
+      name: 'sign-in',
+      meta: {
+        title: '登录',
+        skipAuth: true,
+      },
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../components/auth/sign-in.vue')
     }
   ]
 })
+
+// 验证是否需要登陆
+router.afterEach(validateAuthFn)
 
 // 注册发送分析日志到后台的导航守卫
 router.afterEach(sendToAnalyticsFn)
