@@ -14,21 +14,38 @@
  limitations under the License.
 -->
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <van-nav-bar
-    :fixed="true"
-    :border="false"
-    title="发现"
-  />
+  <van-nav-bar :fixed="true" :border="false" title="发现" />
   <body-container>
-    发现页面
+    <van-cell-group>
+      <van-cell title="朋友圈">
+        <template #icon>
+          <van-icon name="smile-o" size="24" />
+        </template>
+        <template #right-icon>
+          <van-icon name="search" class="search-icon" />
+        </template>
+      </van-cell>
+      <van-cell title="直播" value="LPL夏季赛 JDG对RNG" is-link>
+        <template #icon>
+          <van-icon name="tv-o" size="24" />
+        </template>
+      </van-cell>
+      <van-cell title="扫一扫" is-link>
+        <template #icon>
+          <van-icon name="scan" size="24" />
+        </template>
+      </van-cell>
+      <van-cell title="小程序" is-link>
+        <template #icon>
+          <van-icon name="apps-o" size="24" />
+        </template>
+      </van-cell>
+    </van-cell-group>
   </body-container>
   <body-footer />
 </template>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

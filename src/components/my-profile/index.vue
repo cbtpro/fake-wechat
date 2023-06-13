@@ -15,6 +15,7 @@
 -->
 
 <script setup lang="ts">
+import { ActiveColor } from '@/constants/color'
 </script>
 
 <template>
@@ -66,7 +67,7 @@
       </pane-list-item>
       <pane-list-item>
         <template #left>
-          <van-icon name="idcard" size="24" />
+          <van-icon name="idcard" size="24" :color="ActiveColor" />
         </template>
         卡包
       </pane-list-item>

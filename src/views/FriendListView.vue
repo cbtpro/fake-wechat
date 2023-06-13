@@ -14,24 +14,41 @@
  limitations under the License.
 -->
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <van-nav-bar
-    :fixed="true"
-    :border="false"
-    title="通讯录"
-  >
+  <van-nav-bar :fixed="true" :border="false" title="通讯录">
     <template #right>
       <van-icon name="friends-o" color="#000" size="20" />
     </template>
   </van-nav-bar>
-  <body-container></body-container>
+  <body-container>
+    <van-index-bar>
+      <van-cell title="新的朋友" />
+      <van-cell title="仅聊天的朋友" />
+      <van-cell title="群聊" />
+      <van-cell title="标签" />
+      <van-cell title="公众号" />
+      <van-cell title="企业微信联系人" />
+
+      <van-index-anchor index="我的企业" />
+      <van-cell title="深圳市税务局移动办税" />
+
+      <van-index-anchor index="A" />
+      <van-cell title="阿娟" />
+      <van-cell title="阿军" />
+      <van-cell title="AI" />
+
+      <van-index-anchor index="B" />
+      <van-cell title="白浅" />
+      <van-index-anchor index="D" />
+      <van-cell title="大B哥" />
+      <van-cell title="大哥" />
+      <van-index-anchor index="Z" />
+      <van-cell title="张霞" />
+    </van-index-bar>
+  </body-container>
   <body-footer />
 </template>
 
-<style lang="less" scoped>
-
-</style>
-
+<style lang="less" scoped></style>
