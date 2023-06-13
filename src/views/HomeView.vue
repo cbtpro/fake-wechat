@@ -67,6 +67,7 @@ const onLoad = async () => {
   } catch (error) {
     console.error(error)
     listError.value = true
+    page.value = 0
   } finally {
     loading.value = false
   }

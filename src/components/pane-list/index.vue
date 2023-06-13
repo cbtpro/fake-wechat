@@ -15,21 +15,20 @@
 -->
 
 <script setup lang="ts">
-
 </script>
 
 <template>
-  <van-nav-bar
-    :fixed="true"
-    :border="false"
-    title=""
-  />
-  <body-container>
-    <my-profile />
-  </body-container>
-  <body-footer />
+  <div class="pane">
+    <slot></slot>
+  </div>
 </template>
 
 <style lang="less" scoped>
-
+.pane {
+  position: relative;
+  width: 750px;
+  background-color: #FEFEFF;
+  margin-bottom: 24px;
+}
 </style>
+

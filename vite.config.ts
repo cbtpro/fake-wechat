@@ -10,6 +10,8 @@ import Components from 'unplugin-vue-components/vite'
 import { VantResolver } from 'unplugin-vue-components/resolvers'
 const autoprefixer = require('autoprefixer')
 const pxtoviewport = require('postcss-px-to-viewport')
+import { viteVConsole } from 'vite-plugin-vconsole'
+import * as path from 'path'
 
 /**
  * @see https://github.com/jeddygong/vite-plugin-progress/blob/main/src/index.ts
@@ -39,6 +41,15 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    viteVConsole({
+      entry: [path.resolve('src/main.ts')], // or you can use entry: [path.resolve('src/main.ts')]
+      localEnabled: true,
+      enabled: true,
+      config: {
+        maxLogNumber: 1000,
+        theme: 'dark'
+      }
+    }),
     gzipCompression({
       exclude: [/\.(DS_Store)$/],
       deleteOriginalAssets: false,

@@ -52,5 +52,7 @@ onMounted(() => {
   width: 750px;
   height: 100vh;
   background-color: #ececed;
+
+  font-size: 24px;
 }
 </style>

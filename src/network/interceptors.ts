@@ -16,7 +16,6 @@ import type { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import { AxiosError } from 'axios'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { nextTick } from 'vue'
 import HttpStatus from '@/constants/HttpStatus'
 
 export const useInterceptors = () => {
@@ -48,15 +47,13 @@ export const useInterceptors = () => {
     return response
   }
 
+  const router = useRouter()
   const responseErrorHandler = (error: AxiosError) => {
     const { response } = error
     const { status, data } = response || {}
     if (status === HttpStatus.UNAUTHORIZED) {
-      const router = useRouter()
-      nextTick(() => {
-        router.push({
-          path: '/sign-in'
-        })
+      router.push({
+        path: '/sign-in'
       })
     }
     return Promise.reject(new Error((data as any).message))
