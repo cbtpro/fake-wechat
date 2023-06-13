@@ -48,12 +48,11 @@ export const useInterceptors = () => {
     return response
   }
 
-  const router = useRouter()
-
   const responseErrorHandler = (error: AxiosError) => {
     const { response } = error
     const { status, data } = response || {}
     if (status === HttpStatus.UNAUTHORIZED) {
+      const router = useRouter()
       nextTick(() => {
         router.push({
           path: '/sign-in'

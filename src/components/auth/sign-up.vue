@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { showNotify } from 'vant'
 import { useNetwork } from '@/network'
 
 const disabled = ref(false)
@@ -23,6 +25,7 @@ const username = ref('')
 const nickname = ref('');
 const password = ref('')
 
+const router = useRouter()
 const signUp = (user: ISignUpUser) => {
   const { request } = useNetwork()
 
@@ -45,8 +48,24 @@ const onSubmit = async (values: ISignUpUser) => {
     nickname,
     password,
   } = values;
-  const user = await signUp(values);
-  console.log(user);
+  try {
+    const user = await signUp(values);
+    console.log(user);
+    showNotify({
+      type: 'success',
+      message: '注册成功！',
+    })
+    router.push({
+      path: '/sign-in',
+    });
+  } catch (error) {
+    console.error(error);
+    const message = (error as any).message;
+    showNotify({
+      type: 'danger',
+      message,
+    })
+  }
 }
 </script>
 
