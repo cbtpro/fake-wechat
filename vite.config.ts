@@ -11,6 +11,7 @@ import { VantResolver } from 'unplugin-vue-components/resolvers'
 const autoprefixer = require('autoprefixer')
 const pxtoviewport = require('postcss-px-to-viewport')
 import { viteVConsole } from 'vite-plugin-vconsole'
+import bundleAnalyzer from 'rollup-plugin-bundle-analyzer'
 import * as path from 'path'
 
 /**
@@ -46,6 +47,12 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     plugins: [
       vue(),
       vueJsx(),
+      bundleAnalyzer({
+        openBrowser: true,
+        analyzerMode: 'static',
+        // host: '127.0.0.1',
+        // port: 8899,
+      }),
       viteVConsole({
         entry: [path.resolve('src/main.ts')], // or you can use entry: [path.resolve('src/main.ts')]
         localEnabled: true,
@@ -105,21 +112,21 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           // 'vue',
           // 'vue-router',
           // 'pinia',
-          'axios'
+          'axios',
         ],
         output: {
           globals: {
             // vue: 'vue',
             // 'vue-router': 'vue-router',
             // pinia: 'pinia',
-            axios: 'axios'
+            axios: 'axios',
           },
           paths: {
             // 'vue': 'https://cdn.jsdelivr.net/npm/vue@3.3.4/+esm',
             // vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js',
             // 'vue-router': 'https://cdn.jsdelivr.net/npm/vue-router@4.2.2/+esm',
             // pinia: 'https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.esm-browser.min.js',
-            axios: 'https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/esm/axios.min.js'
+            axios: 'https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/esm/axios.min.js',
           }
         }
       },
