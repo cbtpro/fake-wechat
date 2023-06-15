@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { ConfigProvider } from 'vant'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import VueClick from 'vue-click'
 
 import '@/assets/webfont/font.css'
 
@@ -26,6 +27,8 @@ pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 
 app.use(router)
+
+app.use(VueClick)
 
 app.use(ConfigProvider)
 

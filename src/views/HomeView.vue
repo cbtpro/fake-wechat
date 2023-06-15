@@ -82,10 +82,18 @@ const onRefresh = () => {
   loading.value = true
   onLoad()
 }
+
+const dblClickHandle = () => {
+  window.scrollTo({
+    top: 100,
+    left: 100,
+    behavior: 'smooth'
+  })
+}
 </script>
 
 <template>
-  <IndexTitleBar />
+  <IndexTitleBar @dbl-click-callback="dblClickHandle" />
   <body-container>
     <van-search v-model="searchKeyword" placeholder="请输入搜索关键词" />
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">

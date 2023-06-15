@@ -30,3 +30,4 @@ coverage
 
 # 忽略自动导入插件生成的文件，减少多人合作时的git提交记录
 components.d.ts
+stats.html

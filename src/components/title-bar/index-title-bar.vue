@@ -28,7 +28,7 @@
         </div>
       </template>
       <template #title>
-        微信
+        <div v-click.double="dblClickHandle">微信</div>
       </template>
       <template #right>
         <van-icon name="friends-o" color="#000" size="20" />
@@ -38,7 +38,12 @@
 </template>
 
 <script lang="ts" setup>
-
+const emit = defineEmits<{
+  (e: 'dbl-click-callback', value: number): void
+}>()
+const dblClickHandle = () => {
+  emit('dbl-click-callback', Date.now())
+}
 </script>
 
 <style lang="less" scoped>
