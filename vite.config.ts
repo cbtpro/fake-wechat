@@ -12,6 +12,7 @@ const autoprefixer = require('autoprefixer')
 const pxtoviewport = require('postcss-px-to-viewport')
 import { viteVConsole } from 'vite-plugin-vconsole'
 import bundleAnalyzer from 'rollup-plugin-bundle-analyzer'
+import { qrcode } from 'vite-plugin-qrcode';
 import * as path from 'path'
 
 /**
@@ -62,6 +63,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           theme: 'dark'
         }
       }),
+      qrcode(),
       gzipCompression({
         exclude: [/\.(DS_Store)$/],
         deleteOriginalAssets: false

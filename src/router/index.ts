@@ -45,7 +45,7 @@ const router = createRouter({
       path: '/my',
       name: 'my',
       meta: {
-        title: '我',
+        title: '我的',
         skipAuth: false,
       },
       // route level code-splitting

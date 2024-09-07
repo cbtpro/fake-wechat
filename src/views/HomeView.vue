@@ -19,8 +19,8 @@ const getDemoList = (options: { page: number; pageSize: number }) => {
   return new Promise<IResponseBodyByPaging<IMockUser>>((resolve, reject) => {
     requestByPaging<IMockUser>({
       url: '/gateway/mock/list',
-      method: 'GET',
-      params: {
+      method: 'POST',
+      data: {
         page,
         pageSize
       }

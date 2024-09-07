@@ -59,7 +59,7 @@ onMounted(() => {
     <van-tabbar-item @click="goToPages('/')" icon="home-o">微信</van-tabbar-item>
     <van-tabbar-item @click="goToPages('/friend-list')" icon="friends-o">通讯录</van-tabbar-item>
     <van-tabbar-item @click="goToPages('/discover')" icon="search">发现</van-tabbar-item>
-    <van-tabbar-item @click="goToPages('/my')" icon="setting-o">我</van-tabbar-item>
+    <van-tabbar-item @click="goToPages('/my')" icon="setting-o">我的</van-tabbar-item>
   </van-tabbar>
 </template>
 

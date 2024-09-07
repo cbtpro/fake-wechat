@@ -25,8 +25,16 @@ export const useNetwork = () => {
     responseErrorHandler,
     responseInterceptor,
     setAuthInfoInterceptor,
-    setCookieInterceptor
+    setCookieInterceptor,
+    setEncryptDataInterceptor,
+    setDecryptDataInterceptor,
+    cryptoErrorHandle,
   } = useInterceptors()
+
+  axiosInstance.interceptors.request.use(setEncryptDataInterceptor, cryptoErrorHandle)
+
+  axiosInstance.interceptors.response.use(setDecryptDataInterceptor, cryptoErrorHandle)
+
   // 请求时添加authInfo
   axiosInstance.interceptors.request.use(setAuthInfoInterceptor)
 
