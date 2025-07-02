@@ -1,19 +1,19 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig, loadEnv } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import { compression as gzipCompression } from 'vite-plugin-compression2'
+import { defineConfig, loadEnv } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { compression as gzipCompression } from 'vite-plugin-compression2';
 // import progress from 'vite-plugin-progress'
 // import colors from 'picocolors'
-import Components from 'unplugin-vue-components/vite'
-import { VantResolver } from 'unplugin-vue-components/resolvers'
-const autoprefixer = require('autoprefixer')
-const pxtoviewport = require('postcss-px-to-viewport')
-import { viteVConsole } from 'vite-plugin-vconsole'
-import bundleAnalyzer from 'rollup-plugin-bundle-analyzer'
+import Components from 'unplugin-vue-components/vite';
+import { VantResolver } from 'unplugin-vue-components/resolvers';
+const autoprefixer = require('autoprefixer');
+const pxtoviewport = require('postcss-px-to-viewport');
+import { viteVConsole } from 'vite-plugin-vconsole';
+import bundleAnalyzer from 'rollup-plugin-bundle-analyzer';
 import { qrcode } from 'vite-plugin-qrcode';
-import * as path from 'path'
+import * as path from 'path';
 
 /**
  * @see https://github.com/jeddygong/vite-plugin-progress/blob/main/src/index.ts
@@ -24,7 +24,7 @@ import * as path from 'path'
 export default defineConfig(({ command, mode, ssrBuild }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, process.cwd(), '');
 
   return {
     base: './',
@@ -32,7 +32,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       host: true,
       proxy: {
         '/gateway': {
-          target: 'http://127.0.0.1:3000',
+          target: 'http://localhost:3000',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/gateway/, ''),
           configure: (proxy, options) => {
@@ -40,7 +40,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           }
         },
         '/socket.io': {
-          target: 'ws://localhost:5174',
+          target: 'ws://192.168.10.38:5174',
           ws: true
         }
       }
@@ -140,5 +140,5 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         }
       }
     }
-  }
-})
+  };
+});

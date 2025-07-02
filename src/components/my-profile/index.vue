@@ -1,12 +1,12 @@
 <!--
  Copyright 2023 Peter Chen
- 
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,7 @@
 -->
 
 <script setup lang="ts">
-import { ActiveColor } from '@/constants/color'
+import { ActiveColor } from '@/constants/theme';
 </script>
 
 <template>
@@ -96,6 +96,7 @@ import { ActiveColor } from '@/constants/color'
   position: relative;
   width: 750px;
   height: 300px;
+
   .avatar {
     position: absolute;
     left: 24px;
@@ -104,22 +105,27 @@ import { ActiveColor } from '@/constants/color'
     height: 180px;
     overflow: hidden;
   }
+
   .info {
     position: absolute;
     left: 220px;
     top: 24px;
     width: 400px;
     height: 200px;
+
     .nickname {
       margin-top: 24px;
     }
+
     .username {
       margin-top: 8px;
     }
+
     .status {
       margin-top: 8px;
     }
   }
+
   .more {
     position: relative;
     top: 24px;

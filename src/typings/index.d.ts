@@ -16,6 +16,7 @@ interface IResponseBody<T> {
   success: boolean;
   message: string;
   data: T;
+  ciphertext?: string | null;
 }
 
 interface PagingMeta {

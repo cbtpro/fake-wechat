@@ -1,9 +1,9 @@
 import {
   createRouter,
   createWebHashHistory,
-} from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import { sendToAnalyticsFn, updateHtmlTitleFn, validateAuthFn } from './navigation-guards'
+} from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
+import { sendToAnalyticsFn, updateHtmlTitleFn, validateAuthFn } from './navigation-guards';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -27,7 +27,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/FriendListView.vue')
+      component: () => import('@/views/FriendListView.vue')
     },
     {
       path: '/discover',
@@ -39,7 +39,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/DiscoverView.vue')
+      component: () => import('@/views/DiscoverView.vue')
     },
     {
       path: '/my',
@@ -51,7 +51,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/MyView.vue')
+      component: () => import('@/views/MyView.vue')
     },
     {
       path: '/sign-up',
@@ -63,7 +63,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../components/auth/sign-up.vue')
+      component: () => import('@/components/auth/sign-up.vue')
     },
 
     {
@@ -76,18 +76,18 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../components/auth/sign-in.vue')
+      component: () => import('@/components/auth/sign-in.vue')
     }
   ]
-})
+});
 
 // 验证是否需要登陆
-router.afterEach(validateAuthFn)
+router.afterEach(validateAuthFn);
 
 // 注册发送分析日志到后台的导航守卫
-router.afterEach(sendToAnalyticsFn)
+router.afterEach(sendToAnalyticsFn);
 
 // 注册更新title的导航守卫
-router.afterEach(updateHtmlTitleFn)
+router.afterEach(updateHtmlTitleFn);
 
-export default router
+export default router;
