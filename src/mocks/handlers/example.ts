@@ -11,18 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import { http, HttpResponse } from 'msw';
 
-import { type CreateAxiosDefaults } from 'axios'
-import { BASE_URL as baseURL } from '@/constants/env'
-
-const config: CreateAxiosDefaults = {
-  baseURL,
-  timeout: 5000,
-  headers: {
-    'X-Requested-With': 'XMLHttpRequest',
-    'X-TOKEN': ''
-  },
-  responseType: 'json'
-}
-
-export default config
+export const example = http.get('https://api.example.com/user', () => {
+  return HttpResponse.json({
+    firstName: 'John',
+    lastName: 'Maverick',
+  });
+});

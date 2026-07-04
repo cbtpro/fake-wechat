@@ -14,3 +14,13 @@
 
 /** 是开发环境 */
 export const isDev = process.env.NODE_ENV === 'development'
+
+/**
+ * 请求url前缀
+ */
+export const BASE_URL = <string>import.meta.env.VITE_BASE_URL;
+
+export const AMAP_SECURITY_KEY = <string>import.meta.env.VITE_AMAP_SECURITY_KEY;
+
+export const DATE_FMT = 'YYYY-MM-DD';
+export const TIME_FMT = 'YYYY-MM-DD HH:mm:ss';

@@ -21,7 +21,7 @@ export const useAuth = () => {
   const signUp = (user: ISignUpUser) => {
     return new Promise<IResponseBody<IAuthInfo>>((resolve, reject) => {
       request<IAuthInfo>({
-        url: '/gateway/auth/login',
+        url: '/auth/login',
         method: 'POST',
         data: user,
       }).then(response => {

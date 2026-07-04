@@ -28,9 +28,8 @@ const password = ref('')
 const auth = useAuth()
 const router = useRouter()
 const onSubmit = async (values: ISignUpUser) => {
-  console.log('submit', values)
   try {
-    // showLoading.value = true
+    showLoading.value = true
     const authInfo = await auth.signUp(values);
     auth.storageAuthInfo(authInfo.data)
     showNotify({
@@ -49,7 +48,7 @@ const onSubmit = async (values: ISignUpUser) => {
     });
     // showFailToast(message)
   } finally {
-    // showLoading.value = false
+    showLoading.value = false
   }
 }
 </script>

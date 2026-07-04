@@ -31,6 +31,14 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     server: {
       host: true,
       proxy: {
+        '/app-dev/api': {
+          target: 'http://127.0.0.1:3000',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/app-dev\/api/, ''),
+          configure: (proxy, options) => {
+            // proxy 是 'http-proxy' 的实例
+          }
+        },
         '/gateway': {
           target: 'http://localhost:3000',
           changeOrigin: true,

@@ -56,7 +56,10 @@ export const useInterceptors = () => {
         path: '/sign-in'
       })
     }
-    return Promise.reject(new Error((data as any).message))
+    if (data) {
+      return Promise.reject(new Error((data as any).message))
+    }
+    return Promise.reject(error)
   }
   /**
    * 加密数据函数

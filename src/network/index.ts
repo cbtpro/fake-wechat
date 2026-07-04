@@ -13,12 +13,12 @@
 // limitations under the License.
 
 import axios, { type AxiosRequestConfig } from 'axios'
-import config from './config.default'
+import defaultConfig from './config.default'
 import { useInterceptors } from './interceptors'
 
 export const useNetwork = () => {
   // 使用默认配置创建请求实例
-  const axiosInstance = axios.create(config)
+  const axiosInstance = axios.create(defaultConfig)
 
   const {
     requestErrorHandle,

@@ -31,7 +31,7 @@ const signUp = (user: ISignUpUser) => {
 
   return new Promise<IResponseBody<ISignUpUser>>((resolve, reject) => {
     request<ISignUpUser>({
-      url: '/gateway/user/register',
+      url: '/user/register',
       method: 'POST',
       data: user,
     }).then(response => {
@@ -42,12 +42,11 @@ const signUp = (user: ISignUpUser) => {
   })
 }
 const onSubmit = async (values: ISignUpUser) => {
-  console.log('submit', values)
-  const {
-    username,
-    nickname,
-    password,
-  } = values;
+  // const {
+  //   username,
+  //   nickname,
+  //   password,
+  // } = values;
   try {
     const user = await signUp(values);
     console.log(user);

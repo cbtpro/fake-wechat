@@ -19,8 +19,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "axios": "^1.7.2",
+    "axios": "^1.7.7",
     "crypto-js": "^4.2.0",
+    "default-passive-events": "^2.0.0",
     "pinia": "^2.0.36",
     "pinia-plugin-persistedstate": "^3.1.0",
     "qrcode": "^1.5.3",
@@ -51,6 +52,7 @@
     "eslint-plugin-vue": "^9.11.0",
     "jsdom": "^22.0.0",
     "less": "^4.3.0",
+    "msw": "^2.4.9",
     "npm-run-all": "^4.1.5",
     "picocolors": "^1.0.0",
     "postcss": "^8.4.24",
@@ -71,5 +73,10 @@
     "vite-plugin-vconsole": "^1.3.1",
     "vitest": "^0.31.0",
     "vue-tsc": "^1.6.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

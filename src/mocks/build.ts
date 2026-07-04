@@ -1,4 +1,4 @@
-// Copyright 2023 Peter Chen
+// Copyright 2021 peter
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { type CreateAxiosDefaults } from 'axios'
-import { BASE_URL as baseURL } from '@/constants/env'
+export const builder = <T>(data: T, message = '成功', success = true) => {
+  return {
+    success,
+    message,
+    data,
+    ciphertext: data,
+  };
+};
 
-const config: CreateAxiosDefaults = {
-  baseURL,
-  timeout: 5000,
-  headers: {
-    'X-Requested-With': 'XMLHttpRequest',
-    'X-TOKEN': ''
-  },
-  responseType: 'json'
-}
-
-export default config
+export default {
+  builder,
+};

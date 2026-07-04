@@ -61,7 +61,7 @@ export const useHtmlHeadMeta = () => {
           metaEl.setAttribute(key, value)
         }
       })
-      console.log('新增meta属性', JSON.stringify(meta, null, 2))
+      console.info('新增meta属性', JSON.stringify(meta, null, 2))
       document.head.appendChild(metaEl)
     } else {
       Object.keys(meta).forEach(key => {
@@ -70,7 +70,7 @@ export const useHtmlHeadMeta = () => {
           metaEl.setAttribute(key, value)
         }
       })
-      console.log('修改meta属性', JSON.stringify(meta, null, 2))
+      console.info('修改meta属性', JSON.stringify(meta, null, 2))
     }
   }
   /**
