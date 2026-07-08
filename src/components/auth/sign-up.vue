@@ -31,7 +31,7 @@ const signUp = (user: ISignUpUser) => {
 
   return new Promise<IResponseBody<ISignUpUser>>((resolve, reject) => {
     request<ISignUpUser>({
-      url: '/user/register',
+      url: '/auth/register',
       method: 'POST',
       data: user,
     }).then(response => {
