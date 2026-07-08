@@ -1,32 +1,21 @@
-<!--
- Copyright 2023 Peter Chen
- 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
-     http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { showNotify } from 'vant'
 import { useNetwork } from '@/network'
+import Captcha from './captcha.vue'
 
 const disabled = ref(false)
 const username = ref('')
 const nickname = ref('');
 const password = ref('')
+const captcha = ref('')
+const captchaId = ref('')
 
+const captchaRef = ref<InstanceType<typeof Captcha>>()
 const router = useRouter()
-const signUp = (user: ISignUpUser) => {
+
+const signUp = (user: ISignUpUser & { captcha: string; captchaId: string }) => {
   const { request } = useNetwork()
 
   return new Promise<IResponseBody<ISignUpUser>>((resolve, reject) => {
@@ -41,14 +30,13 @@ const signUp = (user: ISignUpUser) => {
     })
   })
 }
-const onSubmit = async (values: ISignUpUser) => {
-  // const {
-  //   username,
-  //   nickname,
-  //   password,
-  // } = values;
+
+const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
   try {
-    const user = await signUp(values);
+    const user = await signUp({
+      ...values,
+      captchaId: captchaId.value,
+    });
     console.log(user);
     showNotify({
       type: 'success',
@@ -64,6 +52,7 @@ const onSubmit = async (values: ISignUpUser) => {
       type: 'danger',
       message,
     })
+    captchaRef.value?.refreshCaptcha()
   }
 }
 </script>
@@ -106,6 +95,17 @@ const onSubmit = async (values: ISignUpUser) => {
             placeholder="密码"
             autocomplete="current-password"
           />
+          <van-field
+            v-model="captcha"
+            :rules="[{ required: true, message: '请填写验证码' }]"
+            name="captcha"
+            label="验证码"
+            placeholder="验证码"
+          >
+            <template #button>
+              <Captcha ref="captchaRef" @update:captcha-id="(val) => captchaId = val" />
+            </template>
+          </van-field>
         </van-cell-group>
         <div class="footer">
           <van-button
