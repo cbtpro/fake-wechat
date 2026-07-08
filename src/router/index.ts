@@ -82,7 +82,7 @@ const router = createRouter({
 });
 
 // 验证是否需要登陆
-router.afterEach(validateAuthFn);
+router.beforeEach(validateAuthFn);
 
 // 注册发送分析日志到后台的导航守卫
 router.afterEach(sendToAnalyticsFn);

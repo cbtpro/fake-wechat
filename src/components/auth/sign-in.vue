@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { showNotify } from 'vant';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '@/utils/auth/auth'
 import Captcha from './captcha.vue'
 
@@ -15,6 +15,11 @@ const captchaId = ref('')
 const captchaRef = ref<InstanceType<typeof Captcha>>()
 const auth = useAuth()
 const router = useRouter()
+const route = useRoute()
+
+const redirectPath = computed(() => {
+  return (route.query.redirect as string) || '/'
+})
 
 const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
   try {
@@ -29,7 +34,7 @@ const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
       message: '登陆成功！',
     });
     router.push({
-      path: '/',
+      path: redirectPath.value,
     })
   } catch (error) {
     const message = (error as any).message
@@ -94,6 +99,14 @@ const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
             native-type="submit"
           >
             登陆
+          </van-button>
+          <van-button
+            plain
+            hairline
+            type="default"
+            @click="router.push('/sign-up')"
+          >
+            还没有账号？去注册
           </van-button>
         </div>
       </van-form>

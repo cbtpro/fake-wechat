@@ -116,6 +116,14 @@ const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
           >
             注册
           </van-button>
+          <van-button
+            plain
+            hairline
+            type="default"
+            @click="router.push('/sign-in')"
+          >
+            已有账号？去登录
+          </van-button>
         </div>
       </van-form>
     </div>
