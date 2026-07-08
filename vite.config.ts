@@ -30,6 +30,10 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     base: './',
     server: {
       host: true,
+      https: {
+        key: './certs/key.pem',
+        cert: './certs/cert.pem',
+      },
       proxy: {
         '/app-dev/api': {
           target: 'http://127.0.0.1:3000',
@@ -146,7 +150,8 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           drop_console: true,
           drop_debugger: true
         }
-      }
+      },
+      assetsInclude: ['sw.js']
     }
   };
 });

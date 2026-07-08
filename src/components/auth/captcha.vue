@@ -40,7 +40,7 @@ defineExpose({
 <template>
   <div class="captcha-container">
     <img :src="captchaImage" alt="验证码" class="captcha-image" @click="refreshCaptcha" />
-    <van-button text type="default" size="small" @click="refreshCaptcha">
+    <van-button plain hairline type="default" size="small" @click="refreshCaptcha">
       换一张
     </van-button>
   </div>

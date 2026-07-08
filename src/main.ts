@@ -39,6 +39,31 @@ app.use(VueClick)
 
 app.use(ConfigProvider)
 
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator && import.meta.env.VITE_APP_MOCK_ENABLED !== 'true') {
+    try {
+      const isDev = import.meta.env.MODE === 'development';
+      const swPath = isDev ? '/sw.js' : './sw.js';
+      const registration = await navigator.serviceWorker.register(swPath);
+      console.log('Service Worker registered: ', registration);
+
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('New version available, refresh to update');
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error('Service Worker registration failed: ', error);
+    }
+  }
+};
+
 enableMocking().then(() => {
-  app.mount('#app')
+  app.mount('#app');
+  registerServiceWorker();
 })
