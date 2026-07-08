@@ -16,7 +16,7 @@ import App from '@/App.vue'
 import router from './router'
 
 async function enableMocking() {
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  if (import.meta.env.VITE_APP_MOCK_ENABLED === 'true') {
     const { worker } = await import('./mocks/browser');
     return worker.start();
   }
