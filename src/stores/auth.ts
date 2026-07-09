@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
   const authInfo = ref<IAuthInfo>({})
@@ -22,5 +22,31 @@ export const useAuthStore = defineStore('auth', () => {
     authInfo.value = value
   }
 
-  return { authInfo, setAuthInfo }
+  const userInfo = computed(() => authInfo.value.user || null)
+
+  const updateUserInfo = (user: IUserInfo) => {
+    authInfo.value = {
+      ...authInfo.value,
+      user,
+    }
+  }
+
+  const updateAvatar = (avatar: string) => {
+    if (authInfo.value.user) {
+      authInfo.value.user.avatar = avatar
+    }
+  }
+
+  const clearAuthInfo = () => {
+    authInfo.value = {}
+  }
+
+  return {
+    authInfo,
+    userInfo,
+    setAuthInfo,
+    updateUserInfo,
+    updateAvatar,
+    clearAuthInfo,
+  }
 }, { persist: true })

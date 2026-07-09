@@ -15,24 +15,99 @@
 -->
 
 <script setup lang="ts">
-import { ActiveColor } from '@/constants/theme';
+import { ref, onMounted } from 'vue'
+import { showToast, showLoadingToast, closeToast } from 'vant'
+import { ActiveColor } from '@/constants/theme'
+import { useAuthStore } from '@/stores/auth'
+import { useUser } from '@/utils/user/user'
+
+const authStore = useAuthStore()
+const { uploadAvatar, getProfile } = useUser()
+
+const fileInputRef = ref<HTMLInputElement | null>(null)
+const uploading = ref(false)
+
+onMounted(() => {
+  if (!authStore.userInfo) {
+    getProfile().catch(() => {})
+  }
+})
+
+const handleAvatarClick = () => {
+  fileInputRef.value?.click()
+}
+
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (!file) return
+
+  if (!file.type.startsWith('image/')) {
+    showToast('请选择图片文件')
+    return
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('图片大小不能超过 5MB')
+    return
+  }
+
+  uploading.value = true
+  showLoadingToast({
+    message: '上传中...',
+    forbidClick: true,
+  })
+
+  uploadAvatar(file)
+    .then((res) => {
+      if (res.success) {
+        showToast('头像上传成功')
+      } else {
+        showToast(res.message || '上传失败')
+      }
+    })
+    .catch(() => {
+      showToast('上传失败，请重试')
+    })
+    .finally(() => {
+      uploading.value = false
+      closeToast()
+      if (fileInputRef.value) {
+        fileInputRef.value.value = ''
+      }
+    })
+}
 </script>
 
 <template>
   <pane-list>
-    <div class="my-profile">
+    <div class="my-profile" @click="handleAvatarClick">
       <div class="avatar">
-        <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg" class="avatar" />
+        <van-image
+          :src="authStore.userInfo?.avatar || 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg'"
+          class="avatar-img"
+          round
+        />
       </div>
       <div class="info">
-        <div class="nickname">大反派</div>
-        <div class="username">用户名：test</div>
-        <div class="status">+ 状态 废话少说，放码过来</div>
+        <div class="nickname">{{ authStore.userInfo?.nickname || '未设置昵称' }}</div>
+        <div class="username">用户名：{{ authStore.userInfo?.username || '—' }}</div>
+        <div class="status">
+          <van-icon name="photograph" size="16" />
+          点击头像更换
+        </div>
       </div>
       <div class="more">
         <van-icon name="qr" size="24" />
         <van-icon name="arrow" size="24" />
       </div>
+      <input
+        ref="fileInputRef"
+        type="file"
+        accept="image/*"
+        style="display: none"
+        @change="handleFileChange"
+      />
     </div>
   </pane-list>
   <pane-list>
@@ -96,6 +171,7 @@ import { ActiveColor } from '@/constants/theme';
   position: relative;
   width: 750px;
   height: 300px;
+  cursor: pointer;
 
   .avatar {
     position: absolute;
@@ -104,6 +180,11 @@ import { ActiveColor } from '@/constants/theme';
     width: 180px;
     height: 180px;
     overflow: hidden;
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .info {
@@ -115,14 +196,23 @@ import { ActiveColor } from '@/constants/theme';
 
     .nickname {
       margin-top: 24px;
+      font-size: 32px;
+      font-weight: 600;
     }
 
     .username {
       margin-top: 8px;
+      font-size: 26px;
+      color: #999;
     }
 
     .status {
-      margin-top: 8px;
+      margin-top: 16px;
+      font-size: 24px;
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
   }
 

@@ -92,9 +92,8 @@ export const useInterceptors = () => {
     return decryptedData
   }
   const setEncryptDataInterceptor = (config: InternalAxiosRequestConfig) => {
-    // 在发送请求之前做些什么
     const { data } = config
-    if (data) {
+    if (data && !(data instanceof FormData)) {
       config.data = {
         ciphertext: encryptData(data)
       }
