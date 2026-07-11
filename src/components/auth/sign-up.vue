@@ -59,14 +59,6 @@ const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
 
 <template>
   <div class="container">
-    <div class="header">
-      <van-image
-        width="100"
-        height="100"
-        src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        class="avatar"
-      />
-    </div>
     <div class="form">
       <van-form @submit="onSubmit">
         <van-cell-group inset>
@@ -133,19 +125,14 @@ const onSubmit = async (values: ISignUpUser & { captcha: string }) => {
 <style lang="less" scoped>
 .container {
   width: 750px;
-  .header {
-    width: 750px;
-    .avatar {
-      margin-top: 200px;
-      left: 275px;
-    }
-  }
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 0 200px;
   .form {
     width: 100%;
-    margin-top: 60px;
-    .avatar {
-      margin: 40px auto;
-    }
   }
   .footer {
     margin: 40px auto 0px;

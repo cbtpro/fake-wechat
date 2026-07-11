@@ -9,8 +9,10 @@ import { ConfigProvider } from 'vant'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import VueClick from 'vue-click'
 
-// 引入vant toast样式，否则命令调用方式无法显示
+// 引入vant命令式API样式，否则命令调用方式无法正常显示
 import 'vant/es/notify/style'
+import 'vant/es/dialog/style'
+import 'vant/es/toast/style'
 
 import App from '@/App.vue'
 import router from './router'

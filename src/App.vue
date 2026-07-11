@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import type { ConfigProviderThemeVars } from 'vant'
 import useHtmlHeadMeta from '@/utils/html-head-meta'
-import { onMounted } from 'vue'
+import SplashScreen from '@/components/splash-screen/index.vue'
 
 const themeVars = reactive<ConfigProviderThemeVars>({
   // rateIconFullColor: '#07c160',
@@ -18,6 +18,7 @@ const themeVars = reactive<ConfigProviderThemeVars>({
 })
 
 const htmlHeadMeta = useHtmlHeadMeta()
+const showSplash = ref(true)
 
 onMounted(() => {
   htmlHeadMeta.setMeta([
@@ -44,6 +45,7 @@ onMounted(() => {
         </keep-alive>
       </router-view>
     </div>
+    <SplashScreen v-if="showSplash" @finish="showSplash = false" />
   </van-config-provider>
 </template>
 

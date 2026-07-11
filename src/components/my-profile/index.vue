@@ -16,12 +16,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { showToast, showLoadingToast, closeToast } from 'vant'
 import { ActiveColor } from '@/constants/theme'
 import { useAuthStore } from '@/stores/auth'
 import { useUser } from '@/utils/user/user'
 
 const authStore = useAuthStore()
+const router = useRouter()
 const { uploadAvatar, getProfile } = useUser()
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
@@ -156,11 +158,14 @@ const handleFileChange = (event: Event) => {
   </pane-list>
   <pane-list>
     <div class="service">
-      <pane-list-item>
+      <pane-list-item @click="router.push('/settings')">
         <template #left>
           <van-icon name="setting-o" size="24" />
         </template>
         设置
+        <template #right>
+          <van-icon name="arrow" size="18" />
+        </template>
       </pane-list-item>
     </div>
   </pane-list>

@@ -30,9 +30,10 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     base: './',
     server: {
       host: true,
+      port: 5173,
       https: {
-        key: './certs/key.pem',
-        cert: './certs/cert.pem',
+        key: path.resolve(__dirname, './certs/key.pem'),
+        cert: path.resolve(__dirname, './certs/cert.pem'),
       },
       proxy: {
         '/app-dev/api': {

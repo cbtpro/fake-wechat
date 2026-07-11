@@ -77,6 +77,33 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('@/components/auth/sign-in.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      meta: {
+        title: '设置',
+        skipAuth: false,
+      },
+      component: () => import('@/views/SettingsView.vue')
+    },
+    {
+      path: '/settings/account',
+      name: 'settings-account',
+      meta: {
+        title: '帐号设置',
+        skipAuth: false,
+      },
+      component: () => import('@/views/AccountSettingsView.vue')
+    },
+    {
+      path: '/settings/profile',
+      name: 'settings-profile',
+      meta: {
+        title: '个人信息',
+        skipAuth: false,
+      },
+      component: () => import('@/views/ProfileView.vue')
     }
   ]
 });

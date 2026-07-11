@@ -49,6 +49,7 @@
     justify-content: center;
     align-items: center;
     margin-left: 24px;
+    white-space: nowrap;
   }
   .center {
     // display: inline-flex;
